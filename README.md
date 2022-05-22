@@ -16,3 +16,8 @@ Note that the result in integer math division is always truncated (rounded down)
 The standard library function `qsort()` is used to sort the array rather than implementing a sorting algorithm.
 
 `main()` includes a test array to use for testing the functions.
+
+### Notes on commits:
+
+- I didn't read far enough before getting into implementation, so I have added branching and merging after the statistics program was complete.
+- These notes are the only modifications to the file set.
