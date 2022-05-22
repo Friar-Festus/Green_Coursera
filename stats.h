@@ -42,10 +42,11 @@
  * minimum, mean, median and length.
  *
  * @param *ptrArray Pointer to the array
+ * @param lenArray  Length of the input array
  *
  * @return void
  */
-void print_statistics(uint8_t *ptrArray);
+void print_statistics(uint8_t *ptrArray, uint8_t lenArray);
 
 /**
  * @brief Print out a table of the array
@@ -121,5 +122,19 @@ uint8_t find_minimum(uint8_t *ptrArray, uint8_t lenArray);
  * @return void - Array is sorted in place
  */
 void sort_array(uint8_t *ptrArray, uint8_t lenArray);
+
+/**
+ * @brief Comparison function required for qsort()
+ *
+ * Return the difference between two integers. Used by
+ * C standard library function qsort() - to avoid
+ * re-inventing a sorting function.
+ *
+ * @param *a First number for comparison
+ * @param *b Second number for comparison
+ *
+ * @return Difference between the two input values
+ */
+int compfunc (const void * a, const void * b);
 
 #endif /* __STATS_H__ */

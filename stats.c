@@ -25,6 +25,7 @@
 
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "stats.h"
 
 /* Size of the Data Set */
@@ -40,68 +41,109 @@ void main() {
                                 7,  87, 250, 230,  99,   3, 100,  90};
 
   /* Other Variable Declarations Go Here */
-  uint8_t sorted_array[SIZE];
-
-  /* The following may not be necessary since they will be
-   * calculated **inside** print_statistics(), but including
-   * them for "Second Commit" */
-  uint8_t median = 0;
-  uint8_t mean = 0;
-  uint8_t minimum = 255;
-  uint8_t maximum = 0;
-
-  // Void out "unused vars" for "Second Commit" to allow compilation w/ -Werror
-  (void) median;
-  (void) mean;
-  (void) minimum;
-  (void) maximum;
-
-  (void) test;
-  (void) sorted_array;
+  uint8_t testCopy[SIZE]; // work on a sorted copy of the array
 
   /* Statistics and Printing Functions Go Here */
+  for (uint8_t i = 0; i < SIZE; ++i) {
+    testCopy[i] = test[i]; 
+  }
+
+  /* Calculating array length on the fly instead of using
+   * SIZE to make this more generic, even though this is 
+   * test code for the functions. */
+
+  printf("Original array of values:\n\n");
+  print_array(test, sizeof(test) / sizeof(test[0]));
+
+  // Sort first so median works correctly
+  sort_array(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
+
+  print_statistics(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
 }
 
 /* Add other Implementation File Code Here */
-void print_statistics(uint8_t *ptrArray) {
-  (void) ptrArray;
+void print_statistics(uint8_t *ptrArray, uint8_t lenArray) {
+  printf("\nStatistics related to the array:\n");
+  printf("=================================\n");
+  printf("Mean:    %d\n", find_mean(ptrArray, lenArray));
+  printf("Median:  %d\n", find_median(ptrArray, lenArray));
+  printf("Max:     %d\n", find_maximum(ptrArray, lenArray));
+  printf("Min:     %d\n", find_minimum(ptrArray, lenArray));
 
 }
 
 void print_array(uint8_t *ptrArray, uint8_t lenArray) {
-  (void) ptrArray;
-  (void) lenArray;
+  printf(" Index | Value\n");
+  printf("=======|=======\n");
+  for (uint8_t i = 0; i < lenArray; ++i) {
+    printf("%5d  |%5d\n", i, ptrArray[i]);
+  }
 }
 
 uint8_t find_median(uint8_t *ptrArray, uint8_t lenArray) {
-  (void) ptrArray;
-  (void) lenArray;
+  /* The median value is in the center of the sorted array. If the
+   * number of elements is even, average the middle two elements,
+   * else use the entry at the center index. */
+  uint8_t median = 0;
+  uint8_t index = lenArray / 2;
+  
+  if ((lenArray % 2) == 0) { // Number of elements is even
+    median = ((uint16_t) ptrArray[index] + (uint16_t) ptrArray[index-1]) / 2;
+  } else { // Number of elements is odd
+    median = ptrArray[index];
+  }
 
-  return 0;
+  return median;
 }
 
 uint8_t find_mean(uint8_t *ptrArray, uint8_t lenArray) {
-  (void) ptrArray;
-  (void) lenArray;
+  uint16_t total = 0;
+  for (uint8_t i = 0; i < lenArray; ++i) {
+    total += ptrArray[i];
+  }
 
-  return 0;
+  return total / lenArray;
 }
 
 uint8_t find_maximum(uint8_t *ptrArray, uint8_t lenArray) {
-  (void) ptrArray;
-  (void) lenArray;
+  uint8_t maximum = 0;
+  for (uint8_t i = 0; i < lenArray; ++i) {
+    if (ptrArray[i] > maximum) {
+      maximum = ptrArray[i];
+    }
+  }
 
-  return 0;
+  return maximum;
 }
 
 uint8_t find_minimum(uint8_t *ptrArray, uint8_t lenArray) {
-  (void) ptrArray;
-  (void) lenArray;
+  uint8_t minimum = 255;
+  for (uint8_t i = 0; i < lenArray; ++i) {
+    if (ptrArray[i] < minimum) {
+      minimum = ptrArray[i];
+    }
+  }
 
-  return 0;
+  return minimum;
 }
 
 void sort_array(uint8_t *ptrArray, uint8_t lenArray) {
-  (void) ptrArray;
-  (void) lenArray;
+  /* Copy to new array. Passing original to qsort() within
+   * this function doesn't work due to pointer decay. */
+  uint8_t newArray[SIZE];
+  for (uint8_t i = 0; i < lenArray; ++i) {
+    newArray[i] = ptrArray[i];
+  }
+  
+  /* Sort the array using standard library function */
+  qsort(newArray, lenArray, sizeof(uint8_t), compfunc);
+
+  /* Copy back into the array passed in by reference. */
+  for (uint8_t i = 0; i < lenArray; ++i) {
+    ptrArray[i] = newArray[i];
+  }
+}
+
+int compfunc (const void * a, const void * b) {
+   return ( *(const uint8_t*)b - *(const uint8_t*)a );
 }
