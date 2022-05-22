@@ -58,6 +58,9 @@ void main() {
   // Sort first so median works correctly
   sort_array(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
 
+  printf("Sorted array of values:\n\n");
+  print_array(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
+
   print_statistics(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
 }
 
