@@ -47,4 +47,3 @@ void set_all(char * ptr, char value, unsigned int size){
 void clear_all(char * ptr, unsigned int size){
   set_all(ptr, 0, size);
 }
-

@@ -7,11 +7,43 @@
 # software. Alex Fosdick and the University of Colorado are not liable for any
 # misuse of this material. 
 #
+# Modified by T. Green, 24 May 2022 
+#
 #*****************************************************************************
 
 # Add your Source files to this variable
-SOURCES =
+ifeq ($(PLATFORM), MSP432)
+SOURCES = memory.c \
+	main.c \
+	interrupts_msp432p401r_gcc.c \
+	startup_msp432p401r_gcc.c \
+	system_msp432p401r.c
+else
+SOURCES = memory.c \
+	main.c
+endif
+
+ifeq ($(PLATFORM), MSP432)
+HEADERS = memory.h \
+	platform.h \
+	cmsis_gcc.h \
+	core_cm4.h \
+	core_cmFunc.h \
+	core_cmInstr.h \
+	core_cmSimd.h \
+	msp_compatibility.h \
+	msp432p401r.h \
+	system_msp432p401r.h 
+else
+HEADERS = memory.h \
+	platform.h
+endif
 
 # Add your include paths to this variable
-INCLUDES = 
-
+ifeq ($(PLATFORM), MSP432)
+INCLUDES = -I ../include/CMSIS \
+	-I ../include/common \
+	-I ../include/msp432
+else
+INCLUDES = -I ../include/common
+endif
