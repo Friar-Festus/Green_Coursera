@@ -21,3 +21,7 @@ The standard library function `qsort()` is used to sort the array rather than im
 
 - I didn't read far enough before getting into implementation, so I have added branching and merging after the statistics program was complete.
 - These notes are the only modifications to the file set.
+
+# Intro to Embedded Systems - Assignment 2
+
+Added `m2` folder with **C1M2** assignment files.
