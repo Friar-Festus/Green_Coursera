@@ -50,8 +50,10 @@ SPECS = --specs=nosys.specs
 # Compiler Flags and Defines
 ifeq ($(PLATFORM), MSP432)
 	CC = arm-none-eabi-gcc
+	SIZE = arm-none-eabi-size
 else 
 	CC = gcc
+	SIZE = size
 endif
 
 # LD = 
@@ -104,6 +106,7 @@ ifeq ($(PLATFORM), MSP432)
 else
 	$(CC) $(INCLUDES) $(CFLAGS) $(SOURCES) $(LDFLAGS) -DHOST -o $@
 endif
+	$(SIZE) $(TARGET)
 
 .PHONY : compile-all 
 $(SOURCES) :
