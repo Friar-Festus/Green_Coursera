@@ -33,13 +33,13 @@
 #------------------------------------------------------------------------------
 include sources.mk
 
-TARGET = c1m2.out
+TARGET = course1.out
 
 # Platform Overrides (Changed name to avoid self-referential error)
 PLATFORM_SPEC = $(PLATFORM)
 
 # Architectures Specific Flags
-LINKER_FILE = -T ../msp432p401r.lds 
+LINKER_FILE = -T ./msp432p401r.lds 
 CPU = -mcpu=cortex-m4 
 ARCH = -mthumb \
 	-march=armv7e-m \
