@@ -15,17 +15,26 @@
 ifeq ($(PLATFORM), MSP432)
 SOURCES = ./src/memory.c \
 	./src/main.c \
+	./src/data.c \
+	./src/course1.c \
+	./src/stats.c \
 	./src/interrupts_msp432p401r_gcc.c \
 	./src/startup_msp432p401r_gcc.c \
 	./src/system_msp432p401r.c
 else
 SOURCES = ./src/memory.c \
-	./src/main.c
+	./src/main.c \
+	./src/data.c \
+	./src/course1.c \
+	./src/stats.c
 endif
 
 ifeq ($(PLATFORM), MSP432)
 HEADERS = memory.h \
+	course1.h \
+	data.h \
 	platform.h \
+	stats.h \
 	cmsis_gcc.h \
 	core_cm4.h \
 	core_cmFunc.h \
@@ -36,7 +45,10 @@ HEADERS = memory.h \
 	system_msp432p401r.h 
 else
 HEADERS = memory.h \
-	platform.h
+	course1.h \
+	data.h \
+	platform.h \
+	stats.h
 endif
 
 # Add your include paths to this variable

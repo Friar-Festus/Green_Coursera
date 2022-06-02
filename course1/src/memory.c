@@ -19,8 +19,10 @@
  * @author Alex Fosdick
  * @date April 1 2017
  *
+ * Modified by T. Green June 1, 2022
  */
 #include "memory.h"
+#include <stdint-gcc.h>
 
 /***********************************************************
  Function Definitions
@@ -46,4 +48,82 @@ void set_all(char * ptr, char value, unsigned int size){
 
 void clear_all(char * ptr, unsigned int size){
   set_all(ptr, 0, size);
+}
+
+uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length){
+  // Allocate space for a temporary swap area
+  uint8_t *temp;
+  temp = (uint8_t*) malloc(length * sizeof(uint8_t));
+  
+  // Copy from src to temp
+  for (uint16_t i = 0; i < length; ++i) {
+    *(temp + i) = *(src + i);
+  }
+
+  // Copy from temp to dst
+  for (uint16_t i = 0; i < length; ++i) {
+    *(dst + i) = *(temp + i);
+  }
+
+  free(temp);
+
+  return(dst);
+}
+
+uint8_t * my_memcopy(uint8_t * src, uint8_t * dst, size_t length){
+  // If source address + length < destination address, copy from first
+  for (uint16_t i = 0; i < length; ++i) {
+    *dst = *src;
+    ++dst;
+    ++src;
+  }
+  // Else behavior is undefined, so we're just letting that happen...
+
+  return(dst);
+}
+
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value){
+  for (uint16_t i = 0; i < length; ++i) {
+    *src = value;
+    src++;
+  }
+
+  return(src);
+}
+
+uint8_t * my_memzero(uint8_t * src, size_t length){
+  for (uint16_t i = 0; i < length; ++i) {
+    *src = 0;
+    src++;
+  }
+  return(src);
+}
+
+uint8_t * my_reverse(uint8_t * src, size_t length){
+  // Allocate space for a temporary swap area
+  uint8_t *temp;
+  temp = (uint8_t*) malloc(length * sizeof(uint8_t));
+
+  for (uint16_t i = 0; i < length; ++i) {
+    *(temp + i) = *(src + length - 1 - i);
+  }
+
+  for (uint16_t i = 0; i < length; ++i) {
+    *(src + i) = *(temp + i);
+  }
+
+  free(temp);
+
+  return(src);
+}
+
+int32_t * reserve_words(size_t length){
+  int32_t * src;
+  src = (int32_t *) malloc(length * sizeof(int32_t));
+
+  return(src);
+}
+
+void free_words(uint32_t * src){
+  free(src);
 }

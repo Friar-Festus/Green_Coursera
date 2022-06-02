@@ -50,16 +50,19 @@ SPECS = --specs=nosys.specs
 # Compiler Flags and Defines
 ifeq ($(PLATFORM), MSP432)
 	CC = arm-none-eabi-gcc
+	LD = arm-none-eabi-ld
 	SIZE = arm-none-eabi-size
 else 
 	CC = gcc
+	LD = ld
 	SIZE = size
 endif
 
-# LD = 
 LDFLAGS = -Wl,-Map=c1m2.map
 CFLAGS = -g -Wall -Werror -O0 -std=c99
 DEPFLAGS = -MM -MP -MD
+DBGFLAGS = -DCOURSE1 -DVERBOSE
+
 
 OBJDUMP = objdump -S
 
@@ -102,9 +105,9 @@ endif
 .PHONY : c1m2.out
 $(TARGET) : 
 ifeq ($(PLATFORM), MSP432)
-	$(CC) $(INCLUDES) $(CFLAGS) $(SOURCES) $(CPU) $(ARCH) $(SPECS) $(LDFLAGS) $(LINKER_FILE) -DMSP432 -o $@
+	$(CC) $(INCLUDES) $(CFLAGS) $(SOURCES) $(CPU) $(ARCH) $(SPECS) $(LDFLAGS) $(LINKER_FILE) $(DBGFLAGS) -DMSP432 -o $@
 else
-	$(CC) $(INCLUDES) $(CFLAGS) $(SOURCES) $(LDFLAGS) -DHOST -o $@
+	$(CC) $(INCLUDES) $(CFLAGS) $(SOURCES) $(LDFLAGS) $(DBGFLAGS) -DHOST -o $@
 endif
 	$(SIZE) $(TARGET)
 

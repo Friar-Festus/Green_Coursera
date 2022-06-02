@@ -27,42 +27,43 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "stats.h"
+#include "platform.h"
 
 /* Size of the Data Set */
 #define SIZE (40)
 
-/* Test statistics functions */
-void main() { 
+// /* Test statistics functions */
+// void main() { 
 
-  unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6,
-                              114, 88,   45,  76, 123,  87,  25,  23,
-                              200, 122, 150, 90,   92,  87, 177, 244,
-                              201,   6,  12,  60,   8,   2,   5,  67,
-                                7,  87, 250, 230,  99,   3, 100,  90};
+//   unsigned char test[SIZE] = { 34, 201, 190, 154,   8, 194,   2,   6,
+//                               114, 88,   45,  76, 123,  87,  25,  23,
+//                               200, 122, 150, 90,   92,  87, 177, 244,
+//                               201,   6,  12,  60,   8,   2,   5,  67,
+//                                 7,  87, 250, 230,  99,   3, 100,  90};
 
-  /* Other Variable Declarations Go Here */
-  uint8_t testCopy[SIZE]; // work on a sorted copy of the array
+//   /* Other Variable Declarations Go Here */
+//   uint8_t testCopy[SIZE]; // work on a sorted copy of the array
 
-  /* Statistics and Printing Functions Go Here */
-  for (uint8_t i = 0; i < SIZE; ++i) {
-    testCopy[i] = test[i]; 
-  }
+//   /* Statistics and Printing Functions Go Here */
+//   for (uint8_t i = 0; i < SIZE; ++i) {
+//     testCopy[i] = test[i]; 
+//   }
 
-  /* Calculating array length on the fly instead of using
-   * SIZE to make this more generic, even though this is 
-   * test code for the functions. */
+//   /* Calculating array length on the fly instead of using
+//    * SIZE to make this more generic, even though this is 
+//    * test code for the functions. */
 
-  printf("Original array of values:\n\n");
-  print_array(test, sizeof(test) / sizeof(test[0]));
+//   printf("Original array of values:\n\n");
+//   print_array(test, sizeof(test) / sizeof(test[0]));
 
-  // Sort first so median works correctly
-  sort_array(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
+//   // Sort first so median works correctly
+//   sort_array(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
 
-  printf("Sorted array of values:\n\n");
-  print_array(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
+//   printf("Sorted array of values:\n\n");
+//   print_array(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
 
-  print_statistics(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
-}
+//   print_statistics(testCopy, sizeof(testCopy) / sizeof(testCopy[0]));
+// }
 
 /* Add other Implementation File Code Here */
 void print_statistics(uint8_t *ptrArray, uint8_t lenArray) {
@@ -76,11 +77,17 @@ void print_statistics(uint8_t *ptrArray, uint8_t lenArray) {
 }
 
 void print_array(uint8_t *ptrArray, uint8_t lenArray) {
-  printf(" Index | Value\n");
-  printf("=======|=======\n");
+#ifdef VERBOSE
+  PRINTF("\n Index : Value | Index : Value | Index : Value | Index : Value | Index : Value \n");
+  PRINTF("=======:=======|=======:=======|=======:=======|======:|=======|=======:=======\n");
   for (uint8_t i = 0; i < lenArray; ++i) {
-    printf("%5d  |%5d\n", i, ptrArray[i]);
+    PRINTF("%5d  :%5d  |", i, ptrArray[i]);
+    if((i+1) % 5 == 0) { //} && (i-1) > 0) {
+      printf("\n");
+    }
   }
+  printf("\n\n");
+#endif
 }
 
 uint8_t find_median(uint8_t *ptrArray, uint8_t lenArray) {

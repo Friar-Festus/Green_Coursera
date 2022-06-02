@@ -22,6 +22,10 @@
 #ifndef __MEMORY_H__
 #define __MEMORY_H__
 
+#include <stdint-gcc.h>
+#include <stddef.h>
+#include <stdlib.h>
+
 /**
  * @brief Sets a value of a data array 
  *
@@ -89,5 +93,97 @@ void set_all(char * ptr, char value, unsigned int size);
  * @return void.
  */
 void clear_all(char * ptr, unsigned int size);
+
+/**
+ * @brief Move an array of bytes from one location to another 
+ *
+ * Given a pointer to a byte data set, this will move the bytes
+ * from a source address to a destination address.
+ *
+ * @param ptr Pointer to source array
+ * @param ptr Pointer to destination 
+ * @param Length of data to be moved
+ *
+ * @return ptr Pointer to destination
+ */
+uint8_t * my_memmove(uint8_t * src, uint8_t * dst, size_t length);
+
+/**
+ * @brief Copy an array of bytes from one location to another 
+ *
+ * Given a pointer to a byte data set, this will move the bytes
+ * from a source address to a destination address.
+ *
+ * @param ptr Pointer to source array
+ * @param ptr Pointer to destination 
+ * @param Length of data to be copied
+ *
+ * @return ptr Pointer to destination
+ */
+uint8_t * my_memcopy(uint8_t * src, uint8_t * dst, size_t length);
+
+/**
+ * @brief Set all locations in a memory region to given value 
+ *
+ * Given a pointer to a memory location, a length and a value, 
+ * set all locations in the memory region to the given value
+ *
+ * @param ptr Pointer to source array
+ * @param Length of the memory region 
+ * @param Value to set memory locations to
+ *
+ * @return ptr Pointer to source
+ */
+uint8_t * my_memset(uint8_t * src, size_t length, uint8_t value);
+
+/**
+ * @brief Set all locations in a memory region to zero 
+ *
+ * Given a pointer to a memory location, and a length, 
+ * set all locations in the memory region to zero
+ *
+ * @param ptr Pointer to source array
+ * @param Length of the memory region 
+ *
+ * @return ptr Pointer to source
+ */
+uint8_t * my_memzero(uint8_t * src, size_t length);
+
+/**
+ * @brief Reverse the order of bytes in a memory region
+ *
+ * Given a pointer to a memory location, and a length, 
+ * reverse the order of the bytes in the memory region
+ *
+ * @param ptr Pointer to source array
+ * @param Length of the memory region 
+ *
+ * @return ptr Pointer to source
+ */
+uint8_t * my_reverse(uint8_t * src, size_t length);
+
+/**
+ * @brief Reserve a number of words in dynamic memory
+ *
+ * Given a pointer to a memory location, and a length, 
+ * reverse the order of the bytes in the memory region
+ *
+ * @param Number of words to reserve 
+ *
+ * @return ptr Pointer to memory if successful, else NULL
+ */
+int32_t * reserve_words(size_t length);
+
+/**
+ * @brief Free up dynamically allocated memory
+ *
+ * Given a pointer to a memory location, free up the
+ * memory stored in that location
+ *
+ * @param ptr Pointer to source array
+ *
+ * @return void
+ */
+void free_words(uint32_t * src);
 
 #endif /* __MEMORY_H__ */
